@@ -17,8 +17,8 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/projects", require("./routes/projectRoutes"));
 app.use("/api/tasks", require("./routes/taskRoutes"));
 
-// 🔥 Serve frontend AFTER routes
-const buildPath = path.join(__dirname, "build");
+// ✅ FIXED PATH (IMPORTANT)
+const buildPath = path.join(__dirname, "../frontend/build");
 
 app.use(express.static(buildPath));
 
