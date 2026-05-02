@@ -15,6 +15,7 @@ export default function Projects() {
       setUsers(u.data);
     }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
 
   const create = async (e) => {
