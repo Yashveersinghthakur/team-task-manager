@@ -1,22 +1,27 @@
-import { useEffect, useState } from 'react';
-import API from '../api';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function Dashboard() {
-  const [stats, setStats] = useState({});
-  useEffect(() => {
-    API.get('/tasks/dashboard').then(res => setStats(res.data));
-  }, []);
-  const cardStyle = { padding: 20, border: '1px solid #ddd', borderRadius: 8, textAlign: 'center', flex: 1 };
+export default function Navbar() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
   return (
-    <div style={{ padding: 30 }}>
-      <h2>Dashboard</h2>
-      <div style={{ display: 'flex', gap: 15, flexWrap: 'wrap' }}>
-        <div style={cardStyle}><h3>{stats.total || 0}</h3><p>Total Tasks</p></div>
-        <div style={cardStyle}><h3>{stats.todo || 0}</h3><p>To Do</p></div>
-        <div style={cardStyle}><h3>{stats.inProgress || 0}</h3><p>In Progress</p></div>
-        <div style={cardStyle}><h3>{stats.done || 0}</h3><p>Done</p></div>
-        <div style={{...cardStyle, background: '#ffe6e6'}}><h3>{stats.overdue || 0}</h3><p>Overdue</p></div>
+    <nav style={{ padding: 15, background: '#222', color: '#fff', display: 'flex', gap: 20 }}>
+      <Link to="/" style={{ color: '#fff' }}>Dashboard</Link>
+      <Link to="/projects" style={{ color: '#fff' }}>Projects</Link>
+      <Link to="/tasks" style={{ color: '#fff' }}>Tasks</Link>
+      <div style={{ marginLeft: 'auto' }}>
+        {user ? (
+          <>
+            <span>{user.name} ({user.role}) </span>
+            <button onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <Link to="/login" style={{ color: '#fff' }}>Login</Link>
+        )}
       </div>
-    </div>
+    </nav>
   );
 }
