@@ -4,7 +4,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Tasks from './pages/Tasks';
-import Navbar from './components/Navbar';
+import Layout from './components/Layout';
 
 const PrivateRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -14,15 +14,37 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/projects" element={<PrivateRoute><Projects /></PrivateRoute>} />
-        <Route path="/tasks" element={<PrivateRoute><Tasks /></PrivateRoute>} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Layout><Dashboard /></Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <PrivateRoute>
+              <Layout><Projects /></Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute>
+              <Layout><Tasks /></Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
 export default App;
